@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Calculator_XF.Views.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Calculator_XF.Controls"
+    Appearing="ContentPage_Appearing">
+
+    <controls:MyScrollView x:Name="scrollviewer">
+        <StackLayout x:Name="scrollviewerContentContainer">
+            <controls:MyCollectionView
+                ItemsSource="{Binding Expressions}"
+                HeightRequest="600"
+                ItemsUpdatingScrollMode="KeepLastItemInView"
+                Rotation="180">
+                <controls:MyCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout
+                            BackgroundColor="Yellow"
+                            Rotation="180">
+                            <Label
+                                x:Name="expression"
+                                Text="{Binding Expression}"
+                                BackgroundColor="Red"
+                                HorizontalOptions="End" />
+                            <Label
+                                x:Name="result"
+                                Text="{Binding Result, StringFormat='= {0}'}"
+                                HorizontalOptions="End" />
+                            <StackLayout.Triggers>
+                                <DataTrigger
+                                    TargetType="StackLayout"
+                                    Binding="{Binding IsSelected}"
+                                    Value="true">
+                                    <Setter TargetName="expression" Property="Label.FontSize" Value="20" />
+                                    <Setter TargetName="result" Property="Label.FontSize" Value="18" />
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                        </StackLayout>
+                    </DataTemplate>
+                </controls:MyCollectionView.ItemTemplate>
+            </controls:MyCollectionView>
+
+            <Grid
+                Grid.Row="1"
+                HeightRequest="400">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.Resources>
+                    <Style
+                        x:Key="KeyboardButtonStyle"
+                        TargetType="Button">
+
+                        <Setter Property="Background" Value="White" />
+                        <Setter Property="FontSize" Value="20" />
+                        <Setter Property="Command" Value="{Binding SetSymbolInExpressionCommand}" />
+                        <Setter Property="CommandParameter" Value="{Binding Path=Text, Source={RelativeSource Mode=Self}}" />
+                    </Style>
+                    <Style
+                        x:Key="DigitButtonStyle"
+                        TargetType="Button"
+                        BasedOn="{StaticResource KeyboardButtonStyle}">
+                        <Setter Property="TextColor" Value="Black" />
+                        <Setter Property="FontAttributes" Value="Bold" />
+                    </Style>
+                    <Style
+                        x:Key="SpecButtonStyle"
+                        TargetType="Button"
+                        BasedOn="{StaticResource KeyboardButtonStyle}">
+                        <Setter Property="TextColor" Value="{DynamicResource Primary}" />
+                        <Setter Property="FontSize" Value="25" />
+                    </Style>
+                    <Style
+                        x:Key="EqualsButtonStyle"
+                        TargetType="Button"
+                        BasedOn="{StaticResource KeyboardButtonStyle}">
+                        <Setter Property="Background" Value="{DynamicResource Primary}" />
+                        <Setter Property="TextColor" Value="White" />
+                        <Setter Property="FontSize" Value="25" />
+                    </Style>
+
+                </Grid.Resources>
+
+                <Button
+                    Text="⌫"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Style="{StaticResource SpecButtonStyle}" />
+                <Button
+                    Text="C"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Style="{StaticResource SpecButtonStyle}" />
+                <Button
+                    Text="%"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Style="{StaticResource SpecButtonStyle}" />
+                <Button
+                    Text="÷"
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Style="{StaticResource SpecButtonStyle}" />
+                <Button
+                    Text="7"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{StaticResource DigitButtonStyle}" />
+                <Button
+                    Text="8"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Style="{StaticResource DigitButtonStyle}" />
+                <Button
+                    Text="9"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Style="{StaticResource DigitButtonStyle}" />
+                <Button
+                    Text="×"
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Style="{StaticResource SpecButtonStyle}" />
+                <Button
+                    Text="4"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Style="{StaticResource DigitButtonStyle}" />
+                <Button
+                    Text="5"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Style="{StaticResource DigitButtonStyle}" />
+                <Button
+                    Text="6"
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Style="{StaticResource DigitButtonStyle}" />
+                <Button
+                    Text="-"
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Style="{StaticResource SpecButtonStyle}" />
+                <Button
+                    Text="1"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Style="{StaticResource DigitButtonStyle}" />
+                <Button
+                    Text="2"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Style="{StaticResource DigitButtonStyle}" />
+                <Button
+                    Text="3"
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Style="{StaticResource DigitButtonStyle}" />
+                <Button
+                    Text="+"
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    Style="{StaticResource SpecButtonStyle}" />
+                <Button
+                    Text="spec"
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Style="{StaticResource SpecButtonStyle}" />
+                <Button
+                    Text="0"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Style="{StaticResource DigitButtonStyle}" />
+                <Button
+                    Text=","
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    Style="{StaticResource DigitButtonStyle}" />
+                <Button
+                    Text="="
+                    Grid.Row="4"
+                    Grid.Column="3"
+                    Style="{StaticResource EqualsButtonStyle}" />
+
+            </Grid>
+        </StackLayout>
+    </controls:MyScrollView>
+
+</ContentPage>

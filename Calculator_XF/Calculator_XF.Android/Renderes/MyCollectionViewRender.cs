@@ -22,52 +22,5 @@ namespace Calculator_XF.Droid.Renderes
         {
             return base.OnTouchEvent(e);
         }
-        protected override void OnScrollChanged(int l, int t, int oldl, int oldt)
-        {
-            base.OnScrollChanged(l, t, oldl, oldt);
-        }
-
-        public override void ScrollBy(int x, int y)
-        {
-            base.ScrollBy(x, y);
-        }
-
-        public override void ScrollTo(int x, int y)
-        {
-            base.ScrollTo(x, y);
-        }
-
-        protected override void ScrollTo(ScrollToRequestEventArgs args)
-        {
-            base.ScrollTo(args);
-        }
-
-        public override void ScrollToPosition(int position)
-        {
-            base.ScrollToPosition(position);
-        }
-
-
-        public class ScrollEventArgs
-        {
-            public int ScrollX { get; set; }
-            public int ScrollY { get; set; }
-        }
-
-        public override void ComputeScroll()
-        {
-            base.ComputeScroll();
-        }
-
-        public override void NestedScrollBy(int x, int y)
-        {
-            base.NestedScrollBy(x, y);
-        }
-        public override void OnScrolled(int dx, int dy)
-        {
-            base.OnScrolled(dx, dy);
-        }
-
-        public override bool HasNestedScrollingParent => true;
     }
 }

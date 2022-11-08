@@ -61,11 +61,6 @@ namespace Calculator_XF.Droid.Renderes
             System.Diagnostics.Debug.WriteLine("Scroll on " + y);
         }
 
-        public override void ScrollTo(int x, int y)
-        {
-            base.ScrollTo(x, y);
-        }
-
         public void SetScrollEnabled(bool value) => IsScrollEnabled = value;
 
         public bool GetScrollEnabled() => IsScrollEnabled;

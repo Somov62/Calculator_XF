@@ -6,9 +6,12 @@
     xmlns:controls="clr-namespace:Calculator_XF.Controls"
     Appearing="ContentPage_Appearing">
 
-    <controls:MyScrollView x:Name="scrollviewer">
+    <controls:MyScrollView
+        x:Name="scrollviewer"
+        Scrolled="scrollviewer_Scrolled">
         <StackLayout x:Name="scrollviewerContentContainer">
             <controls:MyCollectionView
+                x:Name="expressionsCollection"
                 ItemsSource="{Binding Expressions}"
                 HeightRequest="600"
                 ItemsUpdatingScrollMode="KeepLastItemInView"

@@ -2,6 +2,7 @@
 using Android.Views;
 using Calculator_XF.Controls;
 using Calculator_XF.Droid.Renderes;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -44,6 +45,13 @@ namespace Calculator_XF.Droid.Renderes
         public override void ScrollToPosition(int position)
         {
             base.ScrollToPosition(position);
+        }
+
+
+        public class ScrollEventArgs
+        {
+            public int ScrollX { get; set; }
+            public int ScrollY { get; set; }
         }
 
         public override void ComputeScroll()

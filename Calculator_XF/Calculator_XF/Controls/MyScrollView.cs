@@ -44,7 +44,7 @@ namespace Calculator_XF.Controls
             var animation = new Animation(
                 callback: y => base.ScrollToAsync(point.X, y, animated: false),
                 start: this.ScrollY,
-                end: point.Y - 6);
+                end: point.Y);
 
             uint length = animated ? 250u : 0;
             

@@ -13,7 +13,7 @@ namespace Calculator_XF.Views
         {
             InitializeComponent();
             this.BindingContext = new MainPageViewModel();
-            scrollviewer.OnNestingOverScrolled += Scrollviewer_OnNestingOverScrolled;
+            scrollView.OnNestingOverScrolled += Scrollviewer_OnNestingOverScrolled;
         }
         private bool _scrollPosition;
         private void Scrollviewer_OnNestingOverScrolled(Controls.MyScrollView.OverScrolledEventArgs args)
@@ -27,17 +27,30 @@ namespace Calculator_XF.Views
 
         private void ScrollToKeyboard(bool animate = true)
         {
-            var element = scrollviewerContentContainer.Children.Last() as Element;
-            scrollviewer.ScrollToAsync(element, ScrollToPosition.End, animate);
+            var element = scrollViewContentContainer.Children.Last() as Element;
+            scrollView.ScrollToAsync(element, ScrollToPosition.End, animate);
             _scrollPosition = true;
         }
 
         private async void ScrollToExpressions(bool animate = true)
         {
             await Task.Delay(10);
-            var element = scrollviewerContentContainer.Children.First() as Element;
-            scrollviewer.ScrollToAsync(element, ScrollToPosition.End, animate);
             _scrollPosition = false;
+
+            var element = scrollViewContentContainer.Children.First() as VisualElement;
+            Point point = scrollView.GetScrollPositionForElement(element, ScrollToPosition.Start);
+
+            var animation = new Animation(
+                callback: y => scrollView.ScrollToAsync(point.X, y, animated: false),
+                start: scrollView.ScrollY,
+                end: point.Y - 6);
+            animation.Commit(
+                owner: this,
+                name: "Scroll",
+                length: 250,
+                easing: Easing.SinIn);
+
+            //scrollView.ScrollToAsync(element, ScrollToPosition.End, animate);
         }
 
         private async void ContentPage_Appearing(object sender, System.EventArgs e)

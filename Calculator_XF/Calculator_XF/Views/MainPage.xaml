@@ -7,9 +7,9 @@
     Appearing="ContentPage_Appearing">
 
     <controls:MyScrollView
-        x:Name="scrollviewer"
+        x:Name="scrollView"
         Scrolled="scrollviewer_Scrolled">
-        <StackLayout x:Name="scrollviewerContentContainer">
+        <StackLayout x:Name="scrollViewContentContainer">
             <controls:MyCollectionView
                 x:Name="expressionsCollection"
                 ItemsSource="{Binding Expressions}"

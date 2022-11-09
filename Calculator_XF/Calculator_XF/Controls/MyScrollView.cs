@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Calculator_XF.Controls
@@ -34,6 +35,24 @@ namespace Calculator_XF.Controls
         private void NegativeOverScrolled(object _)
         {
             OnNestingOverScrolled?.Invoke(new OverScrolledEventArgs() { Sender = this, ScrollDimension = false });
+        }
+
+        public new Task ScrollToAsync(Element element, ScrollToPosition position, bool animated)
+        {
+            Point point = this.GetScrollPositionForElement(element as VisualElement, position);
+
+            var animation = new Animation(
+                callback: y => base.ScrollToAsync(point.X, y, animated: false),
+                start: this.ScrollY,
+                end: point.Y - 6);
+
+            uint length = animated ? 250u : 0;
+            
+            return new Task(() => animation.Commit(
+                owner: this,
+                name: "Scroll",
+                length: length,
+                easing: Easing.SinIn));
         }
     }
 }

@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Renderes\MyButtonRender.cs" />
     <Compile Include="Renderes\MyCollectionViewRender.cs" />
     <Compile Include="Renderes\MyScrollViewRender.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

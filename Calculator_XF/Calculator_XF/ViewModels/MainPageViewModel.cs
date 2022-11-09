@@ -18,29 +18,7 @@ namespace Calculator_XF.ViewModels
                 new ExpressionModel() { Expression = "2", Result = "4", IsSelected = false },
                 new ExpressionModel() { Expression = "3", Result = "4", IsSelected = false },
                 new ExpressionModel() { Expression = "4", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "5", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "6", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "7", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "8", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "9", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "10", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "11", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "12", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "13", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "14", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "15", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "16", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "17", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "18", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "19", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "20", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "21", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "22", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "23", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "24", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "25", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "26", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "27", Result = "4", IsSelected = false }
+                new ExpressionModel() { Expression = "5", Result = "4", IsSelected = false }
             };
         }
 
@@ -55,6 +33,8 @@ namespace Calculator_XF.ViewModels
             CurrentExpression.Expression += symbol.ToString();
             CurrentExpression.OnPropertyChanged("Expression");
         }
+
+        public bool IsResultMode { get; set; } = false;
     }
 
     internal class ExpressionModel : ObservableObject

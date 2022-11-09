@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Calculator_XF.Controls"
+    BackgroundColor="White"
     Appearing="ContentPage_Appearing">
 
     <controls:MyScrollView
@@ -14,30 +15,63 @@
                 x:Name="expressionsCollection"
                 ItemsSource="{Binding Expressions}"
                 HeightRequest="600"
+                Margin="20,0"
                 ItemsUpdatingScrollMode="KeepLastItemInView"
                 Rotation="180">
                 <controls:MyCollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout
-                            BackgroundColor="Yellow"
-                            Rotation="180">
+                            Opacity="0.5"
+                            Rotation="180"
+                            Spacing="0">
                             <Label
                                 x:Name="expression"
                                 Text="{Binding Expression}"
-                                BackgroundColor="Red"
-                                HorizontalOptions="End" />
+                                TextColor="Black"
+                                HorizontalOptions="End"
+                                Margin="0,20,0,0" />
                             <Label
                                 x:Name="result"
+                                FontAttributes="None"
                                 Text="{Binding Result, StringFormat='= {0}'}"
+                                TextColor="Black"
                                 HorizontalOptions="End" />
                             <StackLayout.Triggers>
-                                <DataTrigger
-                                    TargetType="StackLayout"
-                                    Binding="{Binding IsSelected}"
-                                    Value="true">
-                                    <Setter TargetName="expression" Property="Label.FontSize" Value="20" />
-                                    <Setter TargetName="result" Property="Label.FontSize" Value="18" />
-                                </DataTrigger>
+                                <MultiTrigger TargetType="StackLayout">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition
+                                            Binding="{Binding BindingContext.IsResultMode, Source={x:Reference expressionsCollection}}"
+                                            Value="false" />
+                                        <BindingCondition
+                                            Binding="{Binding IsSelected}"
+                                            Value="true" />
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="Opacity" Value="1" />
+                                        <Setter TargetName="result" Property="Label.FontAttributes" Value="None" />
+
+                                        <Setter TargetName="expression" Property="Label.FontSize" Value="50" />
+                                        <Setter TargetName="expression" Property="Label.FontAttributes" Value="Bold" />
+                                        <Setter TargetName="result" Property="Label.FontSize" Value="40" />
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                                <MultiTrigger TargetType="StackLayout">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition
+                                            Binding="{Binding BindingContext.IsResultMode, Source={x:Reference expressionsCollection}}"
+                                            Value="true" />
+                                        <BindingCondition
+                                            Binding="{Binding IsSelected}"
+                                            Value="true" />
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="Opacity" Value="1" />
+                                        <Setter TargetName="expression" Property="Label.FontSize" Value="40" />
+                                        <Setter TargetName="result" Property="Label.FontSize" Value="50" />
+                                        <Setter TargetName="result" Property="Label.FontAttributes" Value="Bold" />
+                                        <Setter TargetName="expression" Property="Label.FontAttributes" Value="None" />
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
                             </StackLayout.Triggers>
                         </StackLayout>
                     </DataTemplate>
@@ -46,7 +80,9 @@
 
             <Grid
                 Grid.Row="1"
-                HeightRequest="400">
+                HeightRequest="350"
+                ColumnSpacing="0"
+                RowSpacing="0">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
@@ -64,209 +100,193 @@
                 <Grid.Resources>
                     <Style
                         x:Key="KeyboardButtonStyle"
-                        TargetType="Button">
+                        TargetType="controls:MyButton">
+                        <Setter Property="WidthRequest" Value="{Binding Height, Source={RelativeSource Mode=Self}}" />
                         <Setter Property="VerticalOptions" Value="Center" />
                         <Setter Property="HorizontalOptions" Value="Center" />
                         <Setter Property="CornerRadius" Value="100" />
                         <Setter Property="Background" Value="White" />
-                        <Setter Property="Padding" Value="-20" />
+                        <Setter Property="Padding" Value="0" />
                         <Setter Property="FontSize" Value="20" />
-                        <Setter Property="HeightRequest" Value="{Binding Width, Source={RelativeSource Mode=Self}}" />
                         <Setter Property="Command" Value="{Binding SetSymbolInExpressionCommand}" />
                         <Setter Property="CommandParameter" Value="{Binding Path=Text, Source={RelativeSource Mode=Self}}" />
                     </Style>
                     <Style
                         x:Key="DigitButtonStyle"
-                        TargetType="Button"
+                        TargetType="controls:MyButton"
                         BasedOn="{StaticResource KeyboardButtonStyle}">
                         <Setter Property="TextColor" Value="Black" />
                         <Setter Property="FontAttributes" Value="Bold" />
                     </Style>
                     <Style
                         x:Key="SpecButtonStyle"
-                        TargetType="Button"
+                        TargetType="controls:MyButton"
                         BasedOn="{StaticResource KeyboardButtonStyle}">
                         <Setter Property="TextColor" Value="{DynamicResource Primary}" />
                         <Setter Property="FontSize" Value="25" />
                     </Style>
                     <Style
                         x:Key="EqualsButtonStyle"
-                        TargetType="Button"
+                        TargetType="controls:MyButton"
                         BasedOn="{StaticResource KeyboardButtonStyle}">
                         <Setter Property="Background" Value="{DynamicResource Primary}" />
                         <Setter Property="TextColor" Value="White" />
                         <Setter Property="FontSize" Value="25" />
                     </Style>
-                    <Style TargetType="Frame"
-                           >
+                    <Style TargetType="Frame">
                         <Setter Property="HasShadow" Value="false" />
                         <Setter Property="BackgroundColor" Value="White" />
                         <Setter Property="Padding" Value="0" />
+                        <Setter Property="CornerRadius" Value="0" />
                     </Style>
                 </Grid.Resources>
 
+
+
+
                 <Frame
                     Grid.Row="0"
-                    Grid.Column="1"
-                    >
-                    <Button
+                    Grid.Column="0">
+                    <controls:MyButton
+                        Text="C"
+                        Style="{StaticResource SpecButtonStyle}" />
+                </Frame>
+
+                <Frame
+                    Grid.Row="0"
+                    Grid.Column="1">
+                    <controls:MyButton
                         Text="⌫"
                         Style="{StaticResource SpecButtonStyle}" />
                 </Frame>
+
                 <Frame
                     Grid.Row="0"
-                    Grid.Column="0"
-                    >
-                <Button
-                    Text="C"
-                    Style="{StaticResource SpecButtonStyle}" />
+                    Grid.Column="2">
+                    <controls:MyButton
+                        Text="%"
+                        Style="{StaticResource SpecButtonStyle}" />
                 </Frame>
 
                 <Frame
                     Grid.Row="0"
-                    Grid.Column="2"
-                    >
-                <Button
-                    Text="%"
-                    Style="{StaticResource SpecButtonStyle}" />
+                    Grid.Column="3">
+                    <controls:MyButton
+                        Text="÷"
+                        Style="{StaticResource SpecButtonStyle}" />
                 </Frame>
+                <Frame
+                    Grid.Row="1"
+                    Grid.Column="0">
+                    <controls:MyButton
+                        Text="7"
+                        Style="{StaticResource DigitButtonStyle}" />
+                </Frame>
+                <Frame
+                    Grid.Row="1"
+                    Grid.Column="1">
+                    <controls:MyButton
+                        Text="8"
+                        Style="{StaticResource DigitButtonStyle}" />
+                </Frame>
+                <Frame
+                    Grid.Row="1"
+                    Grid.Column="2">
+                    <controls:MyButton
+                        Text="9"
+                        Style="{StaticResource DigitButtonStyle}" />
+                </Frame>
+                <Frame
+                    Grid.Row="1"
+                    Grid.Column="3">
+                    <controls:MyButton
+                        Text="×"
+                        Style="{StaticResource SpecButtonStyle}" />
 
-                <Frame
-                    Grid.Row="0"
-                    Grid.Column="3"
-                    >
-                <Button
-                    Text="÷"
-                    Style="{StaticResource SpecButtonStyle}" />
-                </Frame>
-                <Frame
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    >
-                    <Button
-                    Text="7"
-                    Style="{StaticResource DigitButtonStyle}" />
-                </Frame>
-                <Frame
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    >
-                    <Button
-                    Text="8"
-                    Style="{StaticResource DigitButtonStyle}" />
-                </Frame>
-                <Frame
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    >
-                    <Button
-                    Text="9"
-                    Style="{StaticResource DigitButtonStyle}" />
-                </Frame>
-                <Frame
-                    Grid.Row="1"
-                    Grid.Column="3"
-                    >
-                    <Button
-                    Text="×"
-                    Style="{StaticResource SpecButtonStyle}" />
-    
                 </Frame>
                 <Frame
                     Grid.Row="2"
-                    Grid.Column="0"
-                    >
-                    <Button
-                    Text="4"
-                    Style="{StaticResource DigitButtonStyle}" />
+                    Grid.Column="0">
+                    <controls:MyButton
+                        Text="4"
+                        Style="{StaticResource DigitButtonStyle}" />
                 </Frame>
                 <Frame
                     Grid.Row="2"
-                    Grid.Column="1"
-                    >
-                    <Button
-                    Text="5"
-                    Style="{StaticResource DigitButtonStyle}" />
+                    Grid.Column="1">
+                    <controls:MyButton
+                        Text="5"
+                        Style="{StaticResource DigitButtonStyle}" />
                 </Frame>
                 <Frame
                     Grid.Row="2"
-                    Grid.Column="2"
-                    >
-                    <Button
-                    Text="6"
-                    Style="{StaticResource DigitButtonStyle}" />
+                    Grid.Column="2">
+                    <controls:MyButton
+                        Text="6"
+                        Style="{StaticResource DigitButtonStyle}" />
                 </Frame>
                 <Frame
                     Grid.Row="2"
-                    Grid.Column="3"
-                    >
-                    <Button
-                    Text="-"
-                    Style="{StaticResource SpecButtonStyle}" />
+                    Grid.Column="3">
+                    <controls:MyButton
+                        Text="-"
+                        Style="{StaticResource SpecButtonStyle}" />
                 </Frame>
                 <Frame
                     Grid.Row="3"
-                    Grid.Column="0"
-                    >
-                    <Button
-                    Text="1"
-                    Style="{StaticResource DigitButtonStyle}" />
+                    Grid.Column="0">
+                    <controls:MyButton
+                        Text="1"
+                        Style="{StaticResource DigitButtonStyle}" />
                 </Frame>
                 <Frame
                     Grid.Row="3"
-                    Grid.Column="1"
-                    >
-                    <Button
-                    Text="2"
-                    Style="{StaticResource DigitButtonStyle}" />
+                    Grid.Column="1">
+                    <controls:MyButton
+                        Text="2"
+                        Style="{StaticResource DigitButtonStyle}" />
                 </Frame>
                 <Frame
                     Grid.Row="3"
-                    Grid.Column="2"
-                    >
-                    <Button
-                    Text="3"
-                    Style="{StaticResource DigitButtonStyle}" />
+                    Grid.Column="2">
+                    <controls:MyButton
+                        Text="3"
+                        Style="{StaticResource DigitButtonStyle}" />
                 </Frame>
                 <Frame
                     Grid.Row="3"
-                    Grid.Column="3"
-                    >
-                    <Button
-                    Text="+"
-                    Style="{StaticResource SpecButtonStyle}" />
+                    Grid.Column="3">
+                    <controls:MyButton
+                        Text="+"
+                        Style="{StaticResource SpecButtonStyle}" />
                 </Frame>
                 <Frame
                     Grid.Row="4"
-                    Grid.Column="0"
-                    >
-                    <Button
-                    Text="spec"
-                    Style="{StaticResource SpecButtonStyle}" />
+                    Grid.Column="0">
+                    <controls:MyButton
+                        Text="spec"
+                        Style="{StaticResource SpecButtonStyle}" />
                 </Frame>
                 <Frame
                     Grid.Row="4"
-                    Grid.Column="1"
-                    >
-                    <Button
-                    Text="0"
-                    Style="{StaticResource DigitButtonStyle}" />
+                    Grid.Column="1">
+                    <controls:MyButton
+                        Text="0"
+                        Style="{StaticResource DigitButtonStyle}" />
                 </Frame>
                 <Frame
                     Grid.Row="4"
-                    Grid.Column="2"
-                    >
-                    <Button
-                    Text=","
-                    Style="{StaticResource DigitButtonStyle}" />
+                    Grid.Column="2">
+                    <controls:MyButton
+                        Text=","
+                        Style="{StaticResource DigitButtonStyle}" />
                 </Frame>
                 <Frame
                     Grid.Row="4"
-                    Grid.Column="3"
-                    >
-                    <Button
-                    Text="="
-                    Style="{StaticResource EqualsButtonStyle}" />
+                    Grid.Column="3">
+                    <controls:MyButton
+                        Text="="
+                        Style="{StaticResource EqualsButtonStyle}" />
                 </Frame>
 
 

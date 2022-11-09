@@ -65,9 +65,13 @@
                     <Style
                         x:Key="KeyboardButtonStyle"
                         TargetType="Button">
-
+                        <Setter Property="VerticalOptions" Value="Center" />
+                        <Setter Property="HorizontalOptions" Value="Center" />
+                        <Setter Property="CornerRadius" Value="100" />
                         <Setter Property="Background" Value="White" />
+                        <Setter Property="Padding" Value="-20" />
                         <Setter Property="FontSize" Value="20" />
+                        <Setter Property="HeightRequest" Value="{Binding Width, Source={RelativeSource Mode=Self}}" />
                         <Setter Property="Command" Value="{Binding SetSymbolInExpressionCommand}" />
                         <Setter Property="CommandParameter" Value="{Binding Path=Text, Source={RelativeSource Mode=Self}}" />
                     </Style>
@@ -93,109 +97,178 @@
                         <Setter Property="TextColor" Value="White" />
                         <Setter Property="FontSize" Value="25" />
                     </Style>
-
+                    <Style TargetType="Frame"
+                           >
+                        <Setter Property="HasShadow" Value="false" />
+                        <Setter Property="BackgroundColor" Value="White" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
                 </Grid.Resources>
 
-                <Button
-                    Text="⌫"
+                <Frame
                     Grid.Row="0"
                     Grid.Column="1"
-                    Style="{StaticResource SpecButtonStyle}" />
+                    >
+                    <Button
+                        Text="⌫"
+                        Style="{StaticResource SpecButtonStyle}" />
+                </Frame>
+                <Frame
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    >
                 <Button
                     Text="C"
-                    Grid.Row="0"
-                    Grid.Column="0"
                     Style="{StaticResource SpecButtonStyle}" />
+                </Frame>
+
+                <Frame
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    >
                 <Button
                     Text="%"
-                    Grid.Row="0"
-                    Grid.Column="2"
                     Style="{StaticResource SpecButtonStyle}" />
+                </Frame>
+
+                <Frame
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    >
                 <Button
                     Text="÷"
-                    Grid.Row="0"
-                    Grid.Column="3"
                     Style="{StaticResource SpecButtonStyle}" />
-                <Button
+                </Frame>
+                <Frame
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    >
+                    <Button
                     Text="7"
-                    Grid.Row="1"
-                    Grid.Column="0"
                     Style="{StaticResource DigitButtonStyle}" />
-                <Button
+                </Frame>
+                <Frame
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    >
+                    <Button
                     Text="8"
-                    Grid.Row="1"
-                    Grid.Column="1"
                     Style="{StaticResource DigitButtonStyle}" />
-                <Button
+                </Frame>
+                <Frame
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    >
+                    <Button
                     Text="9"
-                    Grid.Row="1"
-                    Grid.Column="2"
                     Style="{StaticResource DigitButtonStyle}" />
-                <Button
+                </Frame>
+                <Frame
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    >
+                    <Button
                     Text="×"
-                    Grid.Row="1"
-                    Grid.Column="3"
                     Style="{StaticResource SpecButtonStyle}" />
-                <Button
+    
+                </Frame>
+                <Frame
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    >
+                    <Button
                     Text="4"
-                    Grid.Row="2"
-                    Grid.Column="0"
                     Style="{StaticResource DigitButtonStyle}" />
-                <Button
+                </Frame>
+                <Frame
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    >
+                    <Button
                     Text="5"
-                    Grid.Row="2"
-                    Grid.Column="1"
                     Style="{StaticResource DigitButtonStyle}" />
-                <Button
+                </Frame>
+                <Frame
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    >
+                    <Button
                     Text="6"
-                    Grid.Row="2"
-                    Grid.Column="2"
                     Style="{StaticResource DigitButtonStyle}" />
-                <Button
+                </Frame>
+                <Frame
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    >
+                    <Button
                     Text="-"
-                    Grid.Row="2"
-                    Grid.Column="3"
                     Style="{StaticResource SpecButtonStyle}" />
-                <Button
+                </Frame>
+                <Frame
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    >
+                    <Button
                     Text="1"
-                    Grid.Row="3"
-                    Grid.Column="0"
                     Style="{StaticResource DigitButtonStyle}" />
-                <Button
+                </Frame>
+                <Frame
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    >
+                    <Button
                     Text="2"
-                    Grid.Row="3"
-                    Grid.Column="1"
                     Style="{StaticResource DigitButtonStyle}" />
-                <Button
-                    Text="3"
+                </Frame>
+                <Frame
                     Grid.Row="3"
                     Grid.Column="2"
+                    >
+                    <Button
+                    Text="3"
                     Style="{StaticResource DigitButtonStyle}" />
-                <Button
-                    Text="+"
+                </Frame>
+                <Frame
                     Grid.Row="3"
                     Grid.Column="3"
+                    >
+                    <Button
+                    Text="+"
                     Style="{StaticResource SpecButtonStyle}" />
-                <Button
-                    Text="spec"
+                </Frame>
+                <Frame
                     Grid.Row="4"
                     Grid.Column="0"
+                    >
+                    <Button
+                    Text="spec"
                     Style="{StaticResource SpecButtonStyle}" />
-                <Button
-                    Text="0"
+                </Frame>
+                <Frame
                     Grid.Row="4"
                     Grid.Column="1"
+                    >
+                    <Button
+                    Text="0"
                     Style="{StaticResource DigitButtonStyle}" />
-                <Button
-                    Text=","
+                </Frame>
+                <Frame
                     Grid.Row="4"
                     Grid.Column="2"
+                    >
+                    <Button
+                    Text=","
                     Style="{StaticResource DigitButtonStyle}" />
-                <Button
-                    Text="="
+                </Frame>
+                <Frame
                     Grid.Row="4"
                     Grid.Column="3"
+                    >
+                    <Button
+                    Text="="
                     Style="{StaticResource EqualsButtonStyle}" />
+                </Frame>
+
 
             </Grid>
         </StackLayout>

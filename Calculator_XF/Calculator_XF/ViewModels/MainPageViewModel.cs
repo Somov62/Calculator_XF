@@ -30,8 +30,32 @@ namespace Calculator_XF.ViewModels
 
         private void SetSymbol(object symbol)
         {
-            CurrentExpression.Expression += symbol.ToString();
+            var exp = CurrentExpression;
+            switch (symbol as string)
+            {
+                case "C":
+                    exp.Expression = "0";
+                    exp.Result = null;
+                    IsResultMode = false;
+                    break; 
+                case "⌫":
+                    exp.Expression = exp.Expression?.Substring(0, exp.Expression.Length - 1);
+                    if (exp.Expression?.Length == 0) exp.Expression = null;
+                    exp.Result = null;
+                    IsResultMode = false;
+                    break;
+                default:
+                    if (exp.Expression == "0") exp.Expression = string.Empty;
+                    exp.Expression += symbol.ToString();
+                    break;
+
+            }
+
+
+
+
             CurrentExpression.OnPropertyChanged("Expression");
+            CurrentExpression.OnPropertyChanged("Result");
         }
 
         public bool IsResultMode { get; set; } = false;

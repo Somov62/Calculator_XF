@@ -32,17 +32,16 @@ namespace Calculator_XF.Views
 
         private void ScrollToKeyboard(bool animate = true)
         {
-            var element = scrollViewContentContainer.Children.Last() as Element;
-            scrollView.ScrollToAsync(element, ScrollToPosition.End, animate).Start();
             _scrollPosition = true;
+            var element = scrollViewContentContainer.Children.Last() as Element;
+            scrollView.ScrollToAsync(element, ScrollToPosition.End, animate);
         }
 
         private void ScrollToExpressions(bool animate = true)
         {
             _scrollPosition = false;
-
             var element = scrollViewContentContainer.Children.First() as VisualElement;
-            scrollView.ScrollToAsync(element, ScrollToPosition.End, animate).Start();
+            scrollView.ScrollToAsync(element, ScrollToPosition.End, animate);
         }
 
         private async void ContentPage_Appearing(object sender, System.EventArgs e)

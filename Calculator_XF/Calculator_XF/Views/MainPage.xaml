@@ -24,18 +24,24 @@
                             Opacity="0.5"
                             Rotation="180"
                             Spacing="0">
+                            <BoxView 
+                                Margin="10, 20, 10, -1"
+                                x:Name="b2"
+                                BackgroundColor="#dddddd" 
+                                HeightRequest="0"/>
                             <Label
                                 x:Name="expression"
                                 Text="{Binding Expression}"
                                 TextColor="Black"
                                 HorizontalOptions="End"
-                                Margin="0,20,0,0" />
+                                Margin="0,10,0,0" />
                             <Label
                                 x:Name="result"
                                 FontAttributes="None"
                                 Text="{Binding Result, StringFormat='= {0}'}"
                                 TextColor="Black"
                                 HorizontalOptions="End" />
+                            
                             <StackLayout.Triggers>
                                 <MultiTrigger TargetType="StackLayout">
                                     <MultiTrigger.Conditions>
@@ -49,7 +55,7 @@
                                     <MultiTrigger.Setters>
                                         <Setter Property="Opacity" Value="1" />
                                         <Setter TargetName="result" Property="Label.FontAttributes" Value="None" />
-
+                                        <Setter Property="HeightRequest" Value="0.5" TargetName="b2" />
                                         <Setter TargetName="expression" Property="Label.FontSize" Value="50" />
                                         <Setter TargetName="expression" Property="Label.FontAttributes" Value="Bold" />
                                         <Setter TargetName="result" Property="Label.FontSize" Value="40" />
@@ -66,6 +72,7 @@
                                     </MultiTrigger.Conditions>
                                     <MultiTrigger.Setters>
                                         <Setter Property="Opacity" Value="1" />
+                                        <Setter Property="HeightRequest" Value="1" TargetName="b2" />
                                         <Setter TargetName="expression" Property="Label.FontSize" Value="40" />
                                         <Setter TargetName="result" Property="Label.FontSize" Value="50" />
                                         <Setter TargetName="result" Property="Label.FontAttributes" Value="Bold" />
@@ -142,7 +149,11 @@
                 </Grid.Resources>
 
 
-
+                <BoxView 
+                    Margin="35, -1, 35, 0"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="#dddddd" 
+                    HeightRequest="1"/>
 
                 <Frame
                     Grid.Row="0"

@@ -25,6 +25,18 @@ namespace Calculator_XF.Controls
             public bool ScrollDimension{ get; set; }
         }
 
+        private bool _isTouchEnabled = true;
+
+        public bool IsTouchEnabled
+        {
+            get => _isTouchEnabled;
+            set
+            {
+                _isTouchEnabled = value;
+                DependencyService.Get<Interfaces.ICustomScrollView>().SetTouchEnabled(value);
+            }
+        }
+
 
 
         private void PositiveOverScrolled(object _)
@@ -37,22 +49,18 @@ namespace Calculator_XF.Controls
             OnNestingOverScrolled?.Invoke(new OverScrolledEventArgs() { Sender = this, ScrollDimension = false });
         }
 
-        public new Task ScrollToAsync(Element element, ScrollToPosition position, bool animated)
+        public new async void ScrollToAsync(Element element, ScrollToPosition position, bool animated)
         {
-            Point point = this.GetScrollPositionForElement(element as VisualElement, position);
-
-            var animation = new Animation(
-                callback: y => base.ScrollToAsync(point.X, y, animated: false),
-                start: this.ScrollY,
-                end: point.Y);
-
-            uint length = animated ? 250u : 0;
             
-            return new Task(() => animation.Commit(
-                owner: this,
-                name: "Scroll",
-                length: length,
-                easing: Easing.SinIn));
+            System.Diagnostics.Debug.WriteLine("SCROLL INVOKE");
+            if (!_isTouchEnabled)
+            {
+                SendScrollFinished();
+                return;
+            }
+            _isTouchEnabled = false;
+            await base.ScrollToAsync(element, position, animated);
+            _isTouchEnabled = true;
         }
     }
 }

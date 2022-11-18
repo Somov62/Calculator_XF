@@ -117,8 +117,6 @@
                         x:Key="KeyboardButtonStyle"
                         TargetType="controls:MyButton">
                         <Setter Property="WidthRequest" Value="{Binding Height, Source={RelativeSource Mode=Self}}" />
-                        <Setter Property="VerticalOptions" Value="Center" />
-                        <Setter Property="HorizontalOptions" Value="Center" />
                         <Setter Property="CornerRadius" Value="100" />
                         <Setter Property="Background" Value="White" />
                         <Setter Property="Padding" Value="0" />

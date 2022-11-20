@@ -37,7 +37,7 @@ namespace CalculatorLib
             return expression;
         }
         
-        public static string ConvertToPostfixNotation(string expression)
+        private static string ConvertToPostfixNotation(string expression)
         {
             StringBuilder rpnString = new StringBuilder(expression.Length);
             Stack<char> operators = new Stack<char>();
@@ -122,7 +122,10 @@ namespace CalculatorLib
                 double fArg = numbers.Pop();
                 double sArg = 0;
                 if (!char.IsLetter(item[0]))
+                {
+                    if (numbers.Count == 0) return fArg;
                     sArg = numbers.Pop();
+                }
 
                 switch (item)
                 {

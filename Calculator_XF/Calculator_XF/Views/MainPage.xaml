@@ -24,32 +24,30 @@
                             Opacity="0.5"
                             Rotation="180"
                             Spacing="0">
-                            <BoxView 
-                                Margin="10, 20, 10, -1"
+                            <BoxView
                                 x:Name="b2"
-                                BackgroundColor="#dddddd" 
-                                HeightRequest="0"/>
+                                BackgroundColor="#dddddd"
+                                HeightRequest="0"
+                                Margin="10,20,10,-1" />
                             <Label
                                 x:Name="expression"
                                 Text="{Binding Expression, TargetNullValue='0'}"
                                 TextColor="Black"
                                 HorizontalOptions="End"
-                                Margin="0,10,0,0">
-                            </Label>
+                                Margin="0,10,0,0" />
                             <Label
                                 x:Name="result"
-                                FontAttributes="None"
                                 Text="{Binding Result, StringFormat='= {0}'}"
                                 TextColor="Black"
-                                HorizontalOptions="End">
-
+                                HorizontalOptions="End"
+                                FontAttributes="None">
                                 <Label.Triggers>
-                                    <DataTrigger TargetType="Label" Binding="{Binding Result}" Value="{x:Null}">
-                                        <Setter Property="IsVisible" Value="false"/>
-                                    </DataTrigger>
+                                    <Trigger TargetType="Label" Property="Text" Value="= ">
+                                        <Setter Property="HeightRequest" Value="0" />
+                                    </Trigger>
                                 </Label.Triggers>
                             </Label>
-                            
+
                             <StackLayout.Triggers>
                                 <MultiTrigger TargetType="StackLayout">
                                     <MultiTrigger.Conditions>
@@ -63,10 +61,11 @@
                                     <MultiTrigger.Setters>
                                         <Setter Property="Opacity" Value="1" />
                                         <Setter TargetName="result" Property="Label.FontAttributes" Value="None" />
-                                        <Setter Property="HeightRequest" Value="0.5" TargetName="b2" />
+                                        <Setter TargetName="result" Property="Label.FontSize" Value="40" />
+                                        <Setter TargetName="result" Property="Opacity" Value="0.5" />
+                                        <Setter TargetName="expression" Property="Opacity" Value="1" />
                                         <Setter TargetName="expression" Property="Label.FontSize" Value="50" />
                                         <Setter TargetName="expression" Property="Label.FontAttributes" Value="Bold" />
-                                        <Setter TargetName="result" Property="Label.FontSize" Value="40" />
                                     </MultiTrigger.Setters>
                                 </MultiTrigger>
                                 <MultiTrigger TargetType="StackLayout">
@@ -79,11 +78,12 @@
                                             Value="true" />
                                     </MultiTrigger.Conditions>
                                     <MultiTrigger.Setters>
-                                        <Setter Property="Opacity" Value="1" />
-                                        <Setter Property="HeightRequest" Value="1" TargetName="b2" />
-                                        <Setter TargetName="expression" Property="Label.FontSize" Value="40" />
+                                        <Setter Property="Opacity" Value="0.99" />
                                         <Setter TargetName="result" Property="Label.FontSize" Value="50" />
                                         <Setter TargetName="result" Property="Label.FontAttributes" Value="Bold" />
+                                        <Setter TargetName="result" Property="Opacity" Value="1" />
+                                        <Setter TargetName="expression" Property="Opacity" Value="0.7" />
+                                        <Setter TargetName="expression" Property="Label.FontSize" Value="40" />
                                         <Setter TargetName="expression" Property="Label.FontAttributes" Value="None" />
                                     </MultiTrigger.Setters>
                                 </MultiTrigger>
@@ -104,6 +104,7 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition Height="20"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -120,7 +121,8 @@
                         <Setter Property="CornerRadius" Value="100" />
                         <Setter Property="Background" Value="White" />
                         <Setter Property="Padding" Value="0" />
-                        <Setter Property="FontSize" Value="20" />
+                        <Setter Property="FontSize" Value="30" />
+                        <Setter Property="HorizontalOptions" Value="Center" />
                         <Setter Property="Command" Value="{Binding SetSymbolInExpressionCommand}" />
                         <Setter Property="CommandParameter" Value="{Binding Path=Text, Source={RelativeSource Mode=Self}}" />
                     </Style>
@@ -136,7 +138,7 @@
                         TargetType="controls:MyButton"
                         BasedOn="{StaticResource KeyboardButtonStyle}">
                         <Setter Property="TextColor" Value="{DynamicResource Primary}" />
-                        <Setter Property="FontSize" Value="25" />
+                        <Setter Property="FontSize" Value="30" />
                     </Style>
                     <Style
                         x:Key="EqualsButtonStyle"
@@ -144,7 +146,7 @@
                         BasedOn="{StaticResource KeyboardButtonStyle}">
                         <Setter Property="Background" Value="{DynamicResource Primary}" />
                         <Setter Property="TextColor" Value="White" />
-                        <Setter Property="FontSize" Value="25" />
+                        <Setter Property="FontSize" Value="30" />
                     </Style>
                     <Style TargetType="Frame">
                         <Setter Property="HasShadow" Value="false" />
@@ -155,11 +157,11 @@
                 </Grid.Resources>
 
 
-                <BoxView 
-                    Margin="35, -1, 35, 0"
+                <BoxView
                     Grid.ColumnSpan="4"
-                    BackgroundColor="#dddddd" 
-                    HeightRequest="1"/>
+                    BackgroundColor="#dddddd"
+                    HeightRequest="1"
+                    Margin="35,-1,35,0" />
 
                 <Frame
                     Grid.Row="0"
@@ -281,7 +283,7 @@
                     Grid.Row="4"
                     Grid.Column="0">
                     <controls:MyButton
-                        Text="spec"
+                        Text="s"
                         Style="{StaticResource SpecButtonStyle}" />
                 </Frame>
                 <Frame

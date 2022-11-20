@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
+using CalculatorLib;
+
 
 namespace Calculator_XF.ViewModels
 {
@@ -14,7 +16,7 @@ namespace Calculator_XF.ViewModels
             SetSymbolInExpressionCommand = new Command(execute: (object paramenter) => SetSymbol(paramenter));
             Expressions = new ObservableCollection<ExpressionModel>()
             {
-                new ExpressionModel() { Expression = "1", Result = "4", IsSelected = true },
+                new ExpressionModel() { Expression = null, Result = null, IsSelected = true },
                 new ExpressionModel() { Expression = "2", Result = "4", IsSelected = false },
                 new ExpressionModel() { Expression = "3", Result = "4", IsSelected = false },
                 new ExpressionModel() { Expression = "4", Result = "4", IsSelected = false },
@@ -24,41 +26,52 @@ namespace Calculator_XF.ViewModels
 
         public ObservableCollection<ExpressionModel> Expressions { get; }
 
-
-
         public ExpressionModel CurrentExpression => Expressions.FirstOrDefault();
 
-        private void SetSymbol(object symbol)
+        private void SetSymbol(object inputSymbol)
         {
+            char symbol = inputSymbol.ToString()[0];
+            IsResultMode = false;
             var exp = CurrentExpression;
-            switch (symbol as string)
+
+            exp.Result = null;
+
+            char[] needZeroSymbols = { '+', '-', '÷', '×', '^' };
+
+            switch (symbol)
             {
-                case "C":
+                case 'C':
                     exp.Expression = "0";
-                    exp.Result = null;
-                    IsResultMode = false;
-                    break; 
-                case "⌫":
+                    break;
+                case '⌫':
                     exp.Expression = exp.Expression?.Substring(0, exp.Expression.Length - 1);
                     if (exp.Expression?.Length == 0) exp.Expression = null;
-                    exp.Result = null;
-                    IsResultMode = false;
+                    break;
+                case '=':
+                    IsResultMode = true;
                     break;
                 default:
-                    if (exp.Expression == "0") exp.Expression = string.Empty;
+                    if (exp.Expression == null)
+                    {
+                        exp.Expression = string.Empty;
+                        if (needZeroSymbols.Contains(symbol))
+                            exp.Expression += "0";
+                    }
                     exp.Expression += symbol.ToString();
                     break;
 
             }
 
-
-
+            if (exp.Expression != null || exp.Expression != "0")
+                exp.Result = Calculator.SolveExpression(exp.Expression).ToString();
 
             CurrentExpression.OnPropertyChanged("Expression");
             CurrentExpression.OnPropertyChanged("Result");
+            CurrentExpression.OnPropertyChanged("IsSelected");
+            base.OnPropertyChanged("IsResultMode");
         }
 
-        public bool IsResultMode { get; set; } = false;
+        public bool IsResultMode { get; set; }
     }
 
     internal class ExpressionModel : ObservableObject

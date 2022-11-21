@@ -15,8 +15,8 @@
                 x:Name="expressionsCollection"
                 ItemsSource="{Binding Expressions}"
                 HeightRequest="600"
+                
                 Margin="20,0"
-                ItemsUpdatingScrollMode="KeepLastItemInView"
                 Rotation="180">
                 <controls:MyCollectionView.ItemTemplate>
                     <DataTemplate>
@@ -183,7 +183,7 @@
                     Grid.Row="0"
                     Grid.Column="0">
                     <controls:MyButton
-                        Text="a"
+                        Text=" "
                         Style="{StaticResource ExctButtonStyle}" />
                 </Frame>
 
@@ -191,7 +191,7 @@
                     Grid.Row="0"
                     Grid.Column="1">
                     <controls:MyButton
-                        Text="a"
+                        Text="e"
                         Style="{StaticResource ExctButtonStyle}" />
                 </Frame>
 
@@ -199,7 +199,7 @@
                     Grid.Row="0"
                     Grid.Column="2">
                     <controls:MyButton
-                        Text="a"
+                        Text="π"
                         Style="{StaticResource ExctButtonStyle}" />
                 </Frame>
 

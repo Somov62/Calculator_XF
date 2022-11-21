@@ -12,9 +12,18 @@ namespace Calculator_XF.Views
         public MainPage()
         {
             InitializeComponent();
-            this.BindingContext = new MainPageViewModel();
+            var vm = new MainPageViewModel();
+            this.BindingContext = vm;
+            vm.Expressions.CollectionChanged += Expressions_CollectionChanged;
+
             scrollView.OnNestingOverScrolled += Scrollviewer_OnNestingOverScrolled;
         }
+
+        private void Expressions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            expressionsCollection.ScrollTo(0, animate: false);
+        }
+
         private bool _scrollPosition;
         private void Scrollviewer_OnNestingOverScrolled(Controls.MyScrollView.OverScrolledEventArgs args)
         {

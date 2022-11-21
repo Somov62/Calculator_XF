@@ -27,6 +27,7 @@ namespace Calculator_XF.ViewModels
         {
             get => _isResultMode;
             set => Set(ref _isResultMode, value);
+            
         }
 
         private void CreateExpression()
@@ -63,6 +64,10 @@ namespace Calculator_XF.ViewModels
                 case '=':
                     IsResultMode = true;
                     return;
+                case 'e':
+                case 'π':
+                    exp.Expression += symbol.ToString();
+                    break;
 
                 default:
                     if (!char.IsDigit(symbol))
@@ -91,8 +96,25 @@ namespace Calculator_XF.ViewModels
             IsResultMode = false;
             exp.Result = null;
 
-            if (exp.Expression != null && exp.Expression != "0")
+            if (exp.Expression == null || exp.Expression == "0")
+                return;
+
+            try
+            {
                 exp.Result = Math.Round(Calculator.SolveExpression(exp.Expression), 8).ToString();
+            }
+            catch (DivideByZeroException)
+            {
+                exp.Result = "Разделить на ноль нельзя";
+            }
+            catch (FormatException)
+            {
+                exp.Result = "Ошибка";
+            }
+            catch
+            {
+                exp.Result = "Ошибка";
+            }
         }
 
         private void Clear()

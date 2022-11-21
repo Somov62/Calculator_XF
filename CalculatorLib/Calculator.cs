@@ -44,7 +44,7 @@ namespace CalculatorLib
 
             foreach (var item in expression)
             {
-                if (char.IsDigit(item) || item == ',')
+                if (char.IsDigit(item) || item == ',' || item == 'e' || item == 'π')
                 {
                     rpnString.Append(item);
                     continue;
@@ -113,6 +113,17 @@ namespace CalculatorLib
 
             foreach (var item in expression.Split(' '))
             {
+                if (item == "π")
+                {
+                    numbers.Push(Math.PI);
+                    continue;
+                }
+
+                if (item == "e")
+                {
+                    numbers.Push(Math.E);
+                    continue;
+                }
                 if (double.TryParse(item, out double number))
                 {
                     numbers.Push(number);

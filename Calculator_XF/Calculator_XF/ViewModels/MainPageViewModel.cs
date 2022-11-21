@@ -1,9 +1,9 @@
-﻿using Calculator_XF.MVVM.Core;
+﻿using Calculator_XF.Models;
+using CalculatorLib;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
-using CalculatorLib;
-
 
 namespace Calculator_XF.ViewModels
 {
@@ -14,71 +14,95 @@ namespace Calculator_XF.ViewModels
         public MainPageViewModel()
         {
             SetSymbolInExpressionCommand = new Command(execute: (object paramenter) => SetSymbol(paramenter));
-            Expressions = new ObservableCollection<ExpressionModel>()
-            {
-                new ExpressionModel() { Expression = null, Result = null, IsSelected = true },
-                new ExpressionModel() { Expression = "2", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "3", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "4", Result = "4", IsSelected = false },
-                new ExpressionModel() { Expression = "5", Result = "4", IsSelected = false }
-            };
+            Expressions = new ObservableCollection<ExpressionModel>();
+            CreateExpression();
+            CurrentExpression.OnPropertyChanged("Expression");
         }
 
         public ObservableCollection<ExpressionModel> Expressions { get; }
-
         public ExpressionModel CurrentExpression => Expressions.FirstOrDefault();
+
+        private bool _isResultMode;
+        public bool IsResultMode
+        {
+            get => _isResultMode;
+            set => Set(ref _isResultMode, value);
+        }
+
+        private void CreateExpression()
+        {
+            if (CurrentExpression != null)
+                CurrentExpression.IsSelected = false;
+            ExpressionModel exp = new ExpressionModel() { IsSelected = true };
+            Expressions.Insert(0, exp);
+        }
 
         private void SetSymbol(object inputSymbol)
         {
             char symbol = inputSymbol.ToString()[0];
-            IsResultMode = false;
+
+            if (char.IsDigit(symbol) && IsResultMode)
+            {
+                CreateExpression();
+            }
+
             var exp = CurrentExpression;
-
-            exp.Result = null;
-
-            char[] needZeroSymbols = { '+', '-', '÷', '×', '^' };
 
             switch (symbol)
             {
-                case 'C':
-                    exp.Expression = "0";
+                case 'C': exp.Expression = null;
                     break;
+                case 'A': Clear();
+                    break;
+
                 case '⌫':
                     exp.Expression = exp.Expression?.Substring(0, exp.Expression.Length - 1);
                     if (exp.Expression?.Length == 0) exp.Expression = null;
                     break;
+
                 case '=':
                     IsResultMode = true;
-                    break;
+                    return;
+
                 default:
-                    if (exp.Expression == null)
+                    if (!char.IsDigit(symbol))
                     {
-                        exp.Expression = string.Empty;
-                        if (needZeroSymbols.Contains(symbol))
-                            exp.Expression += "0";
+                        if (exp.Expression == null) exp.Expression += "0";
+                        char[] needZeroSymbols = { '+', '-', '÷', '×', '^' };
+
+                        if (symbol == ',')
+                        {
+                            if (!char.IsDigit(exp.Expression[exp.Expression.Length - 1])) return;
+                            for (int i = exp.Expression.Length - 1; i >= 0; i--)
+                            {
+                                if (needZeroSymbols.Contains(symbol)) break;
+                                if (exp.Expression[i] == ',') return;
+                            }
+                        }
+
+                        if (!char.IsDigit(exp.Expression[exp.Expression.Length - 1])
+                            && needZeroSymbols.Contains(symbol))
+                            return;
                     }
                     exp.Expression += symbol.ToString();
                     break;
-
             }
 
-            if (exp.Expression != null || exp.Expression != "0")
-                exp.Result = Calculator.SolveExpression(exp.Expression).ToString();
+            IsResultMode = false;
+            exp.Result = null;
 
-            CurrentExpression.OnPropertyChanged("Expression");
-            CurrentExpression.OnPropertyChanged("Result");
-            CurrentExpression.OnPropertyChanged("IsSelected");
-            base.OnPropertyChanged("IsResultMode");
+            if (exp.Expression != null && exp.Expression != "0")
+                exp.Result = Math.Round(Calculator.SolveExpression(exp.Expression), 8).ToString();
         }
 
-        public bool IsResultMode { get; set; }
-    }
+        private void Clear()
+        {
+            if (Expressions.Count == 1) return;
+            Expressions.Clear();
+            CreateExpression();
+        }
 
-    internal class ExpressionModel : ObservableObject
-    {
-        public string Expression { get; set; }
-        public string Result { get; set; }
-        public bool IsSelected { get; set; }
+
     }
 }
 

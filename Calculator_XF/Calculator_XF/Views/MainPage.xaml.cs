@@ -63,5 +63,27 @@ namespace Calculator_XF.Views
             _previewScrollPosition = e.ScrollY;
         }
 
+        private bool _isExtensionMenuOpen;
+        private void ExtensionMenu_Click(object sender, EventArgs e)
+        {
+            int start = 0;
+            int end = 1;
+            if (_isExtensionMenuOpen)
+            {
+                start = 1;
+                end = 0;
+            }
+            var animation = new Animation(
+                    start: start,
+                    end: end,
+                    easing: Easing.CubicInOut,
+                    callback: v =>
+                    {
+                        exctRow.Height = new GridLength(v, GridUnitType.Star);
+                        exctColumn.Width = new GridLength(v, GridUnitType.Star);
+                    });
+            animation.Commit(this, "OpenExctMenuAnimation", length: 250);
+            _isExtensionMenuOpen = !_isExtensionMenuOpen;
+        }
     }
 }

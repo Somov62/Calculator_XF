@@ -27,7 +27,7 @@ namespace Calculator_XF.ViewModels
         {
             get => _isResultMode;
             set => Set(ref _isResultMode, value);
-            
+
         }
 
         private void CreateExpression()
@@ -51,9 +51,11 @@ namespace Calculator_XF.ViewModels
 
             switch (symbol)
             {
-                case 'C': exp.Expression = null;
+                case 'C':
+                    exp.Expression = null;
                     break;
-                case 'A': Clear();
+                case 'A':
+                    Clear();
                     break;
 
                 case '⌫':
@@ -64,14 +66,37 @@ namespace Calculator_XF.ViewModels
                 case '=':
                     IsResultMode = true;
                     return;
+
                 case 'e':
                 case 'π':
                     exp.Expression += symbol.ToString();
                     break;
+                case 's':
+                    exp.Expression += "sin(";
+                    break;
+                case 'c':
+                    exp.Expression += "cos(";
+                    break;
+                case 't':
+                    exp.Expression += "tan(";
+                    break; 
+                case '√':
+                    exp.Expression += "√(";
+                    break;
+                case '/':
+                    if (exp.Expression == null) exp.Expression += "0";
 
+                    exp.Expression += "^(-1)";
+                    break;
                 default:
                     if (!char.IsDigit(symbol))
                     {
+                        if (symbol == '(')
+                        {
+                            exp.Expression += '(';
+                            return;
+                        }
+
                         if (exp.Expression == null) exp.Expression += "0";
                         char[] needZeroSymbols = { '+', '-', '÷', '×', '^' };
 
@@ -98,10 +123,24 @@ namespace Calculator_XF.ViewModels
 
             if (exp.Expression == null || exp.Expression == "0")
                 return;
+            var numbers = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', };
+            if (exp.Expression.Intersect(numbers).Count() == 0) return;
+
+            string expression = exp.Expression;
+
+            if (exp.Expression.Contains('('))
+            {
+                int countOpen = exp.Expression.Where(p => p == '(').Count();
+                int countClose = exp.Expression.Where(p => p == ')').Count();
+                for (int i = countClose; i < countOpen; i++)
+                {
+                    expression += ')';
+                }
+            }
 
             try
             {
-                exp.Result = Math.Round(Calculator.SolveExpression(exp.Expression), 8).ToString();
+                exp.Result = Math.Round(Calculator.SolveExpression(expression), 8).ToString();
             }
             catch (DivideByZeroException)
             {

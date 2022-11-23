@@ -21,19 +21,21 @@ namespace CalculatorLib
 
         private static string PrepareExpression(string expression)
         {
-            expression = expression.Replace(" ", "");
-            expression = expression.Replace(".", ",");
-            expression = expression.Replace("*", "×");
-            expression = expression.Replace("/", "÷");
-            expression = expression.Replace("/", "÷");
-            expression = expression.Replace("/", "÷");
-            expression = expression.Replace("/", "÷");
-            expression = expression.Replace("/", "÷");
-            expression = expression.Replace("sin", "s");
-            expression = expression.Replace("cos", "c");
-            expression = expression.Replace("tan", "t");
-            expression = expression.Replace("sqrt", "q");
-            expression = expression.Replace("√", "q");
+            expression = expression
+                .Replace(" ", "")
+                .Replace(".", ",")
+                .Replace("*", "×")
+                .Replace("/", "÷")
+                .Replace("/", "÷")
+                .Replace("/", "÷")
+                .Replace("/", "÷")
+                .Replace("/", "÷")
+                .Replace("sin", "s")
+                .Replace("cos", "c")
+                .Replace("tan", "t")
+                .Replace("sqrt", "q")
+                .Replace("√", "q")
+                .Replace("(-", "(0-");
             return expression;
         }
         

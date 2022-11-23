@@ -182,8 +182,8 @@
 
                 <!--#region Exct_Buttons-->
                 <Frame
-                    Grid.Row="1"
-                    Grid.Column="0">
+                    Grid.Row="0"
+                    Grid.Column="2">
                     <Grid>
                         <controls:MyButton
                             Text="/"
@@ -196,7 +196,7 @@
                             VerticalOptions="Center"
                             HorizontalOptions="Center"
                             Margin="-12,-12,0,0"
-                            Padding="-2,-5.5"
+                            Padding="-2,0, -2, -5.5"
                             InputTransparent="True" />
                         <Label
                             Text="x"
@@ -210,23 +210,24 @@
                 </Frame>
                 <Frame
                     Grid.Row="0"
-                    Grid.Column="0">
+                    Grid.Column="1">
                     <controls:MyButton
                         Text="√"
                         Style="{StaticResource ExctButtonStyle}" />
                 </Frame>
 
                 <Frame
-                    Grid.Row="0"
-                    Grid.Column="1">
+                    x:Name="frameE"
+                    Grid.Row="5"
+                    Grid.Column="0">
                     <controls:MyButton
                         Text="e"
                         Style="{StaticResource ExctButtonStyle}" />
                 </Frame>
 
                 <Frame
-                    Grid.Row="0"
-                    Grid.Column="2">
+                    Grid.Row="1"
+                    Grid.Column="0">
                     <controls:MyButton
                         Text="π"
                         Style="{StaticResource ExctButtonStyle}" />
@@ -405,6 +406,7 @@
                         Style="{StaticResource SpecButtonStyle}" />
                 </Frame>
                 <Frame
+                    x:Name="frameExct"
                     Grid.Row="5"
                     Grid.Column="1">
                     <Grid>

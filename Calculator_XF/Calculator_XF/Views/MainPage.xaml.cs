@@ -75,24 +75,20 @@ namespace Calculator_XF.Views
         private bool _isExtensionMenuOpen;
         private void ExtensionMenu_Click(object sender, EventArgs e)
         {
-            int start = 0;
-            int end = 1;
-            if (_isExtensionMenuOpen)
-            {
-                start = 1;
-                end = 0;
-            }
-            var animation = new Animation(
-                    start: start,
-                    end: end,
-                    easing: Easing.CubicInOut,
-                    callback: v =>
-                    {
-                        exctRow.Height = new GridLength(v, GridUnitType.Star);
-                        exctColumn.Width = new GridLength(v, GridUnitType.Star);
-                    });
-            animation.Commit(this, "OpenExctMenuAnimation", length: 250);
+            keyboardGrid.Opacity = 0;
+            int length = _isExtensionMenuOpen ? 0 : 1;
+
+            (int, int) grid = (Grid.GetRow(frameE), Grid.GetColumn(frameE));
+            Grid.SetRow(frameE, Grid.GetRow(frameExct));
+            Grid.SetColumn(frameE, Grid.GetColumn(frameExct));
+
+            Grid.SetRow(frameExct, grid.Item1);
+            Grid.SetColumn(frameExct, grid.Item2);
+
+            exctRow.Height = new GridLength(length, GridUnitType.Star);
+            exctColumn.Width = new GridLength(length, GridUnitType.Star);
             _isExtensionMenuOpen = !_isExtensionMenuOpen;
+            keyboardGrid.FadeTo(1, 350, Easing.CubicInOut);
         }
     }
 }

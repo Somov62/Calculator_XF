@@ -79,7 +79,7 @@ namespace Calculator_XF.ViewModels
                     break;
                 case 't':
                     exp.Expression += "tan(";
-                    break; 
+                    break;
                 case '√':
                     exp.Expression += "√(";
                     break;
@@ -110,8 +110,13 @@ namespace Calculator_XF.ViewModels
                             }
                         }
 
+                        if (symbol == '-' && exp.Expression[exp.Expression.Length - 1] != '(')
+                        {
+                            exp.Expression += '-';
+                            return;
+                        }
                         if (!char.IsDigit(exp.Expression[exp.Expression.Length - 1])
-                            && needZeroSymbols.Contains(symbol))
+                        && needZeroSymbols.Contains(symbol) && exp.Expression[exp.Expression.Length - 1] != ')')
                             return;
                     }
                     exp.Expression += symbol.ToString();
@@ -123,7 +128,7 @@ namespace Calculator_XF.ViewModels
 
             if (exp.Expression == null || exp.Expression == "0")
                 return;
-            var numbers = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', };
+            var numbers = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'e', 'π' };
             if (exp.Expression.Intersect(numbers).Count() == 0) return;
 
             string expression = exp.Expression;
@@ -141,6 +146,10 @@ namespace Calculator_XF.ViewModels
             try
             {
                 exp.Result = Math.Round(Calculator.SolveExpression(expression), 8).ToString();
+                if (exp.Result.Contains("есконечность") || exp.Result.Contains("nfinity"))
+                {
+                    exp.Result = "Ошибка";
+                }
             }
             catch (DivideByZeroException)
             {
